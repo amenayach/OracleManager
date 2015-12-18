@@ -106,6 +106,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ReadMe.md" />
     <None Include="Resources\Hopstarter-Rounded-Square-Database.ico" />
   </ItemGroup>
   <ItemGroup>
