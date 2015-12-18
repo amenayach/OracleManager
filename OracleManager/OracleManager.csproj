@@ -35,9 +35,9 @@
     <ApplicationIcon>Resources\Hopstarter-Rounded-Square-Database.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +52,12 @@
     <Compile Include="Classes\DBHelper.cs" />
     <Compile Include="Classes\Mac.cs" />
     <Compile Include="Classes\OracleHelper.cs" />
+    <Compile Include="Controls\QueryResultCtl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\QueryResultCtl.Designer.cs">
+      <DependentUpon>QueryResultCtl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TextBoxHinter.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -67,6 +73,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\QueryResultCtl.resx">
+      <DependentUpon>QueryResultCtl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -98,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Hopstarter-Rounded-Square-Database.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exclamationmarkicon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

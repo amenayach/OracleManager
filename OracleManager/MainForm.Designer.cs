@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnExec = new System.Windows.Forms.Button();
+            this.lblWait = new System.Windows.Forms.Label();
             this.numRowLimit = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.lblCount = new System.Windows.Forms.Label();
@@ -36,19 +39,15 @@
             this.tbSearch = new System.Windows.Forms.TextBox();
             this.cmbData = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.tbScript = new System.Windows.Forms.RichTextBox();
-            this.grd = new System.Windows.Forms.DataGridView();
+            this.tab = new System.Windows.Forms.TabControl();
+            this.k1 = new System.Windows.Forms.TabPage();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numRowLimit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grd)).BeginInit();
+            this.tab.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -60,6 +59,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnExec);
+            this.splitContainer1.Panel1.Controls.Add(this.lblWait);
             this.splitContainer1.Panel1.Controls.Add(this.numRowLimit);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.lblCount);
@@ -70,10 +71,39 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel2.Controls.Add(this.tab);
             this.splitContainer1.Size = new System.Drawing.Size(859, 480);
             this.splitContainer1.SplitterDistance = 286;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // btnExec
+            // 
+            this.btnExec.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExec.BackgroundImage = global::OracleManager.Properties.Resources.Exclamationmarkicon;
+            this.btnExec.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnExec.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExec.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnExec.Location = new System.Drawing.Point(248, 80);
+            this.btnExec.Name = "btnExec";
+            this.btnExec.Size = new System.Drawing.Size(32, 26);
+            this.btnExec.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.btnExec, "Execute (F5)");
+            this.btnExec.UseVisualStyleBackColor = true;
+            this.btnExec.Click += new System.EventHandler(this.btnExec_Click);
+            // 
+            // lblWait
+            // 
+            this.lblWait.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWait.AutoSize = true;
+            this.lblWait.BackColor = System.Drawing.Color.Yellow;
+            this.lblWait.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWait.ForeColor = System.Drawing.Color.Black;
+            this.lblWait.Location = new System.Drawing.Point(113, 234);
+            this.lblWait.Name = "lblWait";
+            this.lblWait.Size = new System.Drawing.Size(206, 37);
+            this.lblWait.TabIndex = 8;
+            this.lblWait.Text = "Please wait...";
+            this.lblWait.Visible = false;
             // 
             // numRowLimit
             // 
@@ -139,7 +169,7 @@
             this.tbSearch.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tbSearch.Location = new System.Drawing.Point(2, 80);
             this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(281, 26);
+            this.tbSearch.Size = new System.Drawing.Size(243, 26);
             this.tbSearch.TabIndex = 2;
             this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             this.tbSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyDown);
@@ -172,48 +202,27 @@
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // splitContainer2
+            // tab
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.tab.Controls.Add(this.k1);
+            this.tab.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tab.Location = new System.Drawing.Point(0, 0);
+            this.tab.Name = "tab";
+            this.tab.SelectedIndex = 0;
+            this.tab.Size = new System.Drawing.Size(569, 480);
+            this.tab.TabIndex = 3;
+            this.tab.Click += new System.EventHandler(this.tab_SelectedIndexChanged);
+            this.tab.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tab_MouseDown);
             // 
-            // splitContainer2.Panel1
+            // k1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.tbScript);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.grd);
-            this.splitContainer2.Size = new System.Drawing.Size(569, 480);
-            this.splitContainer2.SplitterDistance = 143;
-            this.splitContainer2.TabIndex = 2;
-            // 
-            // tbScript
-            // 
-            this.tbScript.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbScript.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.tbScript.Location = new System.Drawing.Point(0, 0);
-            this.tbScript.Name = "tbScript";
-            this.tbScript.Size = new System.Drawing.Size(569, 143);
-            this.tbScript.TabIndex = 0;
-            this.tbScript.Text = "SELECT * FROM apps.XXMOB_LEAVE_TYPES_V";
-            // 
-            // grd
-            // 
-            this.grd.AllowUserToAddRows = false;
-            this.grd.AllowUserToDeleteRows = false;
-            this.grd.BackgroundColor = System.Drawing.Color.White;
-            this.grd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grd.Location = new System.Drawing.Point(0, 0);
-            this.grd.Name = "grd";
-            this.grd.ReadOnly = true;
-            this.grd.Size = new System.Drawing.Size(569, 333);
-            this.grd.TabIndex = 0;
+            this.k1.Location = new System.Drawing.Point(4, 22);
+            this.k1.Name = "k1";
+            this.k1.Padding = new System.Windows.Forms.Padding(3);
+            this.k1.Size = new System.Drawing.Size(561, 454);
+            this.k1.TabIndex = 0;
+            this.k1.Text = "Query1   X ";
+            this.k1.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -234,11 +243,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numRowLimit)).EndInit();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grd)).EndInit();
+            this.tab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -250,12 +255,14 @@
         private System.Windows.Forms.TextBox tbSearch;
         private System.Windows.Forms.ComboBox cmbData;
         private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.RichTextBox tbScript;
-        private System.Windows.Forms.DataGridView grd;
-        private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Label lblCount;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numRowLimit;
+        private System.Windows.Forms.TabControl tab;
+        private System.Windows.Forms.TabPage k1;
+        private System.Windows.Forms.Label lblWait;
+        private System.Windows.Forms.Button btnExec;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
