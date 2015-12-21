@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ClassGenerater.cs" />
     <Compile Include="Classes\ControlMod.cs" />
     <Compile Include="Classes\DBHelper.cs" />
     <Compile Include="Classes\Mac.cs" />

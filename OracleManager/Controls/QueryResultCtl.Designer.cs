@@ -66,7 +66,7 @@
             this.tbScript.Name = "tbScript";
             this.tbScript.Size = new System.Drawing.Size(764, 143);
             this.tbScript.TabIndex = 0;
-            this.tbScript.Text = "SELECT * FROM apps.XXMOB_LEAVE_TYPES_V";
+            this.tbScript.Text = "";
             // 
             // grd
             // 

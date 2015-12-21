@@ -42,12 +42,17 @@
             this.tab = new System.Windows.Forms.TabControl();
             this.k1 = new System.Windows.Forms.TabPage();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.schemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWithAllFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateCClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numRowLimit)).BeginInit();
             this.tab.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -160,6 +165,7 @@
             this.lstObjects.TabIndex = 3;
             this.lstObjects.SelectedIndexChanged += new System.EventHandler(this.lstObjects_SelectedIndexChanged);
             this.lstObjects.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstObjects_KeyDown);
+            this.lstObjects.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstObjects_MouseDown);
             // 
             // tbSearch
             // 
@@ -224,6 +230,36 @@
             this.k1.Text = "Query1   X ";
             this.k1.UseVisualStyleBackColor = true;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.schemaToolStripMenuItem,
+            this.openWithAllFieldsToolStripMenuItem,
+            this.generateCClassToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(176, 92);
+            // 
+            // schemaToolStripMenuItem
+            // 
+            this.schemaToolStripMenuItem.Name = "schemaToolStripMenuItem";
+            this.schemaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.schemaToolStripMenuItem.Text = "&Schema";
+            this.schemaToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
+            // 
+            // openWithAllFieldsToolStripMenuItem
+            // 
+            this.openWithAllFieldsToolStripMenuItem.Name = "openWithAllFieldsToolStripMenuItem";
+            this.openWithAllFieldsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openWithAllFieldsToolStripMenuItem.Text = "Open with &all fields";
+            this.openWithAllFieldsToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
+            // 
+            // generateCClassToolStripMenuItem
+            // 
+            this.generateCClassToolStripMenuItem.Name = "generateCClassToolStripMenuItem";
+            this.generateCClassToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.generateCClassToolStripMenuItem.Text = "&Generate C# Class";
+            this.generateCClassToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,6 +280,7 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numRowLimit)).EndInit();
             this.tab.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -263,6 +300,10 @@
         private System.Windows.Forms.Label lblWait;
         private System.Windows.Forms.Button btnExec;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem schemaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openWithAllFieldsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateCClassToolStripMenuItem;
     }
 }
 

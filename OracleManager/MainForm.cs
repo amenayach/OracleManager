@@ -17,6 +17,8 @@ namespace OracleManager
 {
     public partial class MainForm : Form
     {
+        private bool DisableListboxSelection = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -123,6 +125,7 @@ namespace OracleManager
 
         private void lstObjects_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (DisableListboxSelection) return;
             try
             {
                 if (lstObjects.SelectedIndex >= 0 && lstObjects.SelectedItem != null && tab.SelectedTab != null && tab.SelectedTab.Controls.Count > 0)
@@ -239,6 +242,62 @@ namespace OracleManager
             ControlMod.CenterControl(lblWait, true);
             lblWait.Visible = wait;
             Application.DoEvents();
+        }
+
+        private void schemaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newTab = tab.TabPages[tab.TabPages.Count - 1];
+            FillTab(newTab);
+            tab.SelectedTab = newTab;
+            var qr = newTab.Controls.Find("qr", true)[0] as QueryResultCtl;
+            if (sender.Equals(schemaToolStripMenuItem))//Schema
+            {
+                qr.SetText(@"SELECT table_name, column_name, data_type, data_length
+                                FROM USER_TAB_COLUMNS
+                                WHERE table_name = '" + lstObjects.SelectedItem.ToString() + @"'");
+                qr.ExecQuery();
+            }
+            else if (sender.Equals(openWithAllFieldsToolStripMenuItem))// Open with all fields
+            {
+                var fields = OracleHelper.GetDatatable(@"SELECT column_name
+                                FROM USER_TAB_COLUMNS
+                                WHERE table_name = '" + lstObjects.SelectedItem.ToString() + @"'");
+                if (fields.NotEmpty())
+                {
+                    var sCols = fields.Rows.Cast<DataRow>().Select(o => o[0]).Aggregate((f1, f2) => f1 + ", " + f2);
+                    qr.SetText(String.Format(@"SELECT {0} FROM {1}  WHERE ROWNUM <= {2}", sCols, lstObjects.SelectedItem.ToString(), numRowLimit.Text));
+                    qr.ExecQuery();
+                }
+            }
+            else if (sender.Equals(generateCClassToolStripMenuItem))// Generate C# class
+            {
+                var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", lstObjects.SelectedItem.ToString()));
+                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString());
+                qr.SetText(__s);
+                qr.HidePanel2();
+            }
+        }
+
+        private void lstObjects_MouseDown(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e.Button != MouseButtons.Right) return;
+                DisableListboxSelection = true;
+                var index = lstObjects.IndexFromPoint(e.Location);
+                if (index != ListBox.NoMatches)
+                {
+                    lstObjects.SelectedIndex = index;// lstObjects.Items[index].ToString();
+                    contextMenuStrip1.Show(Cursor.Position);
+                    contextMenuStrip1.Visible = true;
+                }
+                else
+                {
+                    contextMenuStrip1.Visible = false;
+                }
+            }
+            catch { }
+            DisableListboxSelection = false;
         }
 
     }
