@@ -9,10 +9,25 @@ namespace OracleManager
 {
     public class ClassGenerater
     {
-        public static string GetCSharpClass(DataTable data, string ClassName)
+        public static string GetCSharpClass(DataTable data, string className, bool withWCFDecorators)
         {
-            var __s = @"    public class " + ClassName + " {" + Environment.NewLine;
-            __s += data.Columns.Cast<DataColumn>().Select(o => "        public " + GetTypeString(o.DataType) + " " + o.ColumnName + " { get; set; }" + Environment.NewLine).Aggregate((f1, f2) => f1 + f2);
+            if (data == null) return string.Empty;
+
+            var __s =
+            "    /// <summary>" + Environment.NewLine +
+            "    /// An object that is used to hold the " + className.SplitterByUnderscore() + "." + Environment.NewLine +
+            "    /// </summary>" + Environment.NewLine +
+            (withWCFDecorators ? "    [DataContract]" + Environment.NewLine : "") +
+            "    public class " + className.SplitterByUnderscore() + " {" + Environment.NewLine;
+
+            __s += data.Columns.Cast<DataColumn>().Select(o =>
+                Environment.NewLine +
+                "        /// <summary>" + Environment.NewLine +
+                "        /// Represnts the " + o.ColumnName.SplitterByUnderscore() + Environment.NewLine +
+                "        /// </summary>" + Environment.NewLine +
+                (withWCFDecorators ? "        [DataMember]" + Environment.NewLine : "") +
+                "        public " + GetTypeString(o.DataType) + " " + o.ColumnName.SplitterByUnderscore() + " { get; set; }" + Environment.NewLine
+                ).Aggregate((f1, f2) => f1 + f2);
             __s += "    }";
             return __s;
         }

@@ -247,9 +247,12 @@ namespace OracleManager
         private void schemaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var newTab = tab.TabPages[tab.TabPages.Count - 1];
+            
             FillTab(newTab);
             tab.SelectedTab = newTab;
+            
             var qr = newTab.Controls.Find("qr", true)[0] as QueryResultCtl;
+
             if (sender.Equals(schemaToolStripMenuItem))//Schema
             {
                 qr.SetText(@"SELECT table_name, column_name, data_type, data_length
@@ -269,10 +272,10 @@ namespace OracleManager
                     qr.ExecQuery();
                 }
             }
-            else if (sender.Equals(generateCClassToolStripMenuItem))// Generate C# class
+            else if (sender.Equals(generateCClassToolStripMenuItem) || sender.Equals(generateCClassWCFToolStripMenuItem))// Generate C# class
             {
                 var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", lstObjects.SelectedItem.ToString()));
-                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString());
+                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), sender.Equals(generateCClassWCFToolStripMenuItem));
                 qr.SetText(__s);
                 qr.HidePanel2();
             }

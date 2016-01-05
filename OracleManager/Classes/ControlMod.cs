@@ -1302,6 +1302,27 @@ public static class ControlMod
         return res;
     }
 
+    public static string SplitterByUnderscore(this string strToSplit)
+    {
+        string res = "";
+        try
+        {
+            if (string.IsNullOrEmpty(strToSplit)) return strToSplit;
+
+            var spl = strToSplit.Split('_');
+            foreach (var str in spl)
+            {
+                if (!string.IsNullOrEmpty(str))
+                    res += str.Length > 1 ? str[0].ToString().ToUpper() + str.Substring(1).ToLower() : str.ToLower();
+            }
+        }
+        catch (Exception ex)
+        {
+            PromptMsg(ex);
+        }
+        return res;
+    }
+
     public static bool IsRational(object obj)
     {
         bool res = false;

@@ -46,6 +46,7 @@
             this.schemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openWithAllFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateCClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generateCClassWCFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -235,30 +236,38 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.schemaToolStripMenuItem,
             this.openWithAllFieldsToolStripMenuItem,
-            this.generateCClassToolStripMenuItem});
+            this.generateCClassToolStripMenuItem,
+            this.generateCClassWCFToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(176, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 114);
             // 
             // schemaToolStripMenuItem
             // 
             this.schemaToolStripMenuItem.Name = "schemaToolStripMenuItem";
-            this.schemaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.schemaToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.schemaToolStripMenuItem.Text = "&Schema";
             this.schemaToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
             // 
             // openWithAllFieldsToolStripMenuItem
             // 
             this.openWithAllFieldsToolStripMenuItem.Name = "openWithAllFieldsToolStripMenuItem";
-            this.openWithAllFieldsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openWithAllFieldsToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.openWithAllFieldsToolStripMenuItem.Text = "Open with &all fields";
             this.openWithAllFieldsToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
             // 
             // generateCClassToolStripMenuItem
             // 
             this.generateCClassToolStripMenuItem.Name = "generateCClassToolStripMenuItem";
-            this.generateCClassToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.generateCClassToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.generateCClassToolStripMenuItem.Text = "&Generate C# Class";
             this.generateCClassToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
+            // 
+            // generateCClassWCFToolStripMenuItem
+            // 
+            this.generateCClassWCFToolStripMenuItem.Name = "generateCClassWCFToolStripMenuItem";
+            this.generateCClassWCFToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.generateCClassWCFToolStripMenuItem.Text = "Generate C# Class with &WCF decorators";
+            this.generateCClassWCFToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -304,6 +313,7 @@
         private System.Windows.Forms.ToolStripMenuItem schemaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openWithAllFieldsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateCClassToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateCClassWCFToolStripMenuItem;
     }
 }
 
