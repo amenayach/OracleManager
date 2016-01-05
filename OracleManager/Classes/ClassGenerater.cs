@@ -23,12 +23,12 @@ namespace OracleManager
             __s += data.Columns.Cast<DataColumn>().Select(o =>
                 Environment.NewLine +
                 "        /// <summary>" + Environment.NewLine +
-                "        /// Represnts the " + o.ColumnName.SplitterByUnderscore() + Environment.NewLine +
+                "        /// Represents the " + o.ColumnName.SplitterByUnderscore() + Environment.NewLine +
                 "        /// </summary>" + Environment.NewLine +
                 (withWCFDecorators ? "        [DataMember]" + Environment.NewLine : "") +
                 "        public " + GetTypeString(o.DataType) + " " + o.ColumnName.SplitterByUnderscore() + " { get; set; }" + Environment.NewLine
                 ).Aggregate((f1, f2) => f1 + f2);
-            __s += "    }";
+            __s += Environment.NewLine + "    }";
             return __s;
         }
 
