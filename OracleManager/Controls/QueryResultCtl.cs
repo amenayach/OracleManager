@@ -56,6 +56,36 @@ namespace OracleManager.Controls
             return grd.RowCount;
         }
 
+        public int ExecQueryForDotNetTypes()
+        {
+            try
+            {
+                if (DisableExec) return 0;
+                if (OracleHelper.constr.NotEmpty())
+                {
+                    if (tbScript.Text.NotEmpty())
+                    {
+                        var data = OracleHelper.GetDatatable(tbScript.Text);
+                        grd.DataSource = null;
+                        grd.DataSource = data.Columns.Cast<DataColumn>().Select(col => new { ColumnName = col.ColumnName, Type = col.DataType, MaxLength = col.MaxLength }).ToList();
+                        if (data.NotEmpty())
+                        {
+                            if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
+                        }
+                    }
+                }
+                else
+                {
+                    ControlMod.PromptMsg("Please connect to an Oracle data first !");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+            return grd.ColumnCount;
+        }
+
         public void SetText(string sText)
         {
             tbScript.Text = sText;

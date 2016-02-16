@@ -82,6 +82,9 @@ namespace OracleManager
                     case Keys.F5:
                         Exec();
                         break;
+                    case Keys.F6:
+                        ExecForDotNetTypes();
+                        break;
                     case Keys.F3:
                         tbSearch.Focus();
                         break;
@@ -104,6 +107,25 @@ namespace OracleManager
                 {
                     var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
                     qr.ExecQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+            DoWait(false);
+        }
+
+        private void ExecForDotNetTypes()
+        {
+            try
+            {
+                DoWait(true);
+                var tb = tab.SelectedTab;
+                if (tb != null && tb.Controls.Count > 0)
+                {
+                    var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
+                    qr.ExecQueryForDotNetTypes();
                 }
             }
             catch (Exception ex)
@@ -301,6 +323,11 @@ namespace OracleManager
             }
             catch { }
             DisableListboxSelection = false;
+        }
+
+        private void btnDotNetTypes_Click(object sender, EventArgs e)
+        {
+            ExecForDotNetTypes();
         }
 
     }

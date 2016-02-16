@@ -47,6 +47,7 @@
             this.openWithAllFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateCClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateCClassWCFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnDotNetTypes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -65,6 +66,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnDotNetTypes);
             this.splitContainer1.Panel1.Controls.Add(this.btnExec);
             this.splitContainer1.Panel1.Controls.Add(this.lblWait);
             this.splitContainer1.Panel1.Controls.Add(this.numRowLimit);
@@ -176,7 +178,7 @@
             this.tbSearch.ForeColor = System.Drawing.Color.RoyalBlue;
             this.tbSearch.Location = new System.Drawing.Point(2, 80);
             this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(243, 26);
+            this.tbSearch.Size = new System.Drawing.Size(202, 26);
             this.tbSearch.TabIndex = 2;
             this.tbSearch.TextChanged += new System.EventHandler(this.tbSearch_TextChanged);
             this.tbSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbSearch_KeyDown);
@@ -239,7 +241,7 @@
             this.generateCClassToolStripMenuItem,
             this.generateCClassWCFToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 114);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 92);
             // 
             // schemaToolStripMenuItem
             // 
@@ -268,6 +270,21 @@
             this.generateCClassWCFToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.generateCClassWCFToolStripMenuItem.Text = "Generate C# Class with &WCF decorators";
             this.generateCClassWCFToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
+            // 
+            // btnDotNetTypes
+            // 
+            this.btnDotNetTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDotNetTypes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnDotNetTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDotNetTypes.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnDotNetTypes.Location = new System.Drawing.Point(210, 80);
+            this.btnDotNetTypes.Name = "btnDotNetTypes";
+            this.btnDotNetTypes.Size = new System.Drawing.Size(32, 26);
+            this.btnDotNetTypes.TabIndex = 10;
+            this.btnDotNetTypes.Text = "!";
+            this.toolTip1.SetToolTip(this.btnDotNetTypes, "Get .Net Types (F6)");
+            this.btnDotNetTypes.UseVisualStyleBackColor = true;
+            this.btnDotNetTypes.Click += new System.EventHandler(this.btnDotNetTypes_Click);
             // 
             // MainForm
             // 
@@ -314,6 +331,7 @@
         private System.Windows.Forms.ToolStripMenuItem openWithAllFieldsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateCClassToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateCClassWCFToolStripMenuItem;
+        private System.Windows.Forms.Button btnDotNetTypes;
     }
 }
 
