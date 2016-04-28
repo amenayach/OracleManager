@@ -75,5 +75,45 @@ namespace OracleManager
             return null;
         }
 
+        internal static string ExecuteFunctionOrProcedure(string functionOrProcedureName, string returnValueParameterName = "return_value")
+        {
+            string res = string.Empty;
+            try
+            {
+                using (var connection = new OracleConnection(constr))
+                using (var cmd = new OracleCommand(functionOrProcedureName, connection))
+                {
+
+                    connection.Open();
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    var returnedParam = new OracleParameter
+                    {
+                        ParameterName = returnValueParameterName,
+                        Direction = ParameterDirection.ReturnValue,
+                        //OracleDbType = returnedDbType,
+                        Size = 65536
+                    };
+
+                    //http://docs.oracle.com/cd/E11882_01/win.112/e23174/featOraCommand.htm#ODPNT250
+                    //When binding by position (default) to a function, ODP.NET expects the return value to be bound first, before any other parameters.
+                    cmd.Parameters.Add(returnedParam);
+
+                    //cmd.Parameters.AddRange(oracleParams);
+
+                    cmd.ExecuteNonQuery();
+
+                    res = returnedParam.Value.ToString();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+            return res;
+        }
     }
 }
