@@ -94,6 +94,12 @@ namespace OracleManager
                     case Keys.F3:
                         tbSearch.Focus();
                         break;
+                    case Keys.W:
+                        if (e.Control)
+                        {
+                            CloseCurrentTab();
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -170,6 +176,27 @@ namespace OracleManager
                 {
                     var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
                     qr.ExtractViewsAsTables();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+            DoWait(false);
+        }
+
+        private void CloseCurrentTab()
+        {
+            try
+            {
+                DoWait(true);
+                var tb = tab.SelectedTab;
+                if (tb != null && tb.Controls.Count > 0)
+                {
+                    if (MessageBox.Show("Would you like to Close this Tab?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        this.tab.TabPages.Remove(tb);
+                    }
                 }
             }
             catch (Exception ex)
