@@ -91,6 +91,9 @@ namespace OracleManager
                     case Keys.F8:
                         ExtractViewsAsTables();
                         break;
+                        case Keys.F9:
+                        ExtractDataAsInsertScript();
+                        break;
                     case Keys.F3:
                         tbSearch.Focus();
                         break;
@@ -176,6 +179,25 @@ namespace OracleManager
                 {
                     var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
                     qr.ExtractViewsAsTables();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+            DoWait(false);
+        }
+
+        private void ExtractDataAsInsertScript()
+        {
+            try
+            {
+                DoWait(true);
+                var tb = tab.SelectedTab;
+                if (tb != null && tb.Controls.Count > 0)
+                {
+                    var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
+                    qr.ExtractDataAsInsertScript();
                 }
             }
             catch (Exception ex)
