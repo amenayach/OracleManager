@@ -194,7 +194,7 @@ namespace OracleManager.Controls
             }
         }
 
-        public void ExtractDataAsInsertScript()
+        public void ExtractDataAsInsertScript(int rowLimit)
         {
             try
             {
@@ -218,11 +218,11 @@ namespace OracleManager.Controls
 
                             var data =
                                 OracleHelper.GetDatatable(string.Format(
-                                    @"SELECT * FROM {0}", view));
+                                @"SELECT * FROM {0} {1}", view, (rowLimit > 0 ? " WHERE ROWNUM <= " + rowLimit : "")));
 
                             if (data != null && data.Rows.Count > 0)
                             {
-                            
+
                                 foreach (DataRow row in data.Rows.Cast<DataRow>())
                                 {
 

@@ -197,7 +197,7 @@ namespace OracleManager
                 if (tb != null && tb.Controls.Count > 0)
                 {
                     var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
-                    qr.ExtractDataAsInsertScript();
+                    qr.ExtractDataAsInsertScript(numRowLimit.Value.AsInt());
                 }
             }
             catch (Exception ex)
