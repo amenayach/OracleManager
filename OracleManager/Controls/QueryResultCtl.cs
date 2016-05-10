@@ -242,7 +242,7 @@ namespace OracleManager.Controls
                                             fieldValues += (firstCol ? ", " : " ") +
 
                                                 (column.DataType == typeof(DateTime) && !DBNull.Value.Equals(row[column]) ?
-                                                "'" + ((DateTime)row[column]).ToString("dd-MMM-yyyy") + "'" : "'" + row[column].ToString() + "'");
+                                                "'" + ((DateTime)row[column]).ToString("dd-MMM-yyyy") + "'" : "'" + row[column].ToString().Replace("'","''").Replace("&","and") + "'");
 
                                         }
 
