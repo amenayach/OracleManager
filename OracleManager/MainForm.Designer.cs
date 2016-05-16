@@ -180,6 +180,7 @@
             this.lstObjects.ItemHeight = 20;
             this.lstObjects.Location = new System.Drawing.Point(0, 112);
             this.lstObjects.Name = "lstObjects";
+            this.lstObjects.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstObjects.Size = new System.Drawing.Size(283, 344);
             this.lstObjects.TabIndex = 3;
             this.lstObjects.SelectedIndexChanged += new System.EventHandler(this.lstObjects_SelectedIndexChanged);
@@ -258,7 +259,7 @@
             this.generateCClassWCFToolStripMenuItem,
             this.generateClassWithCollectionToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 114);
             // 
             // schemaToolStripMenuItem
             // 

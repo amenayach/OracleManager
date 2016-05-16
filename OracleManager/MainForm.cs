@@ -18,6 +18,8 @@ namespace OracleManager
     public partial class MainForm : Form
     {
         private bool DisableListboxSelection = false;
+        private string compName = string.Empty;
+        private string nameSpace = string.Empty;
 
         public MainForm()
         {
@@ -91,8 +93,11 @@ namespace OracleManager
                     case Keys.F8:
                         ExtractViewsAsTables();
                         break;
-                        case Keys.F9:
+                    case Keys.F9:
                         ExtractDataAsInsertScript();
+                        break;
+                        case Keys.F10:
+                        GenerateCSharpClassesWithCollection();
                         break;
                     case Keys.F3:
                         tbSearch.Focus();
@@ -362,10 +367,10 @@ namespace OracleManager
         private void schemaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var newTab = tab.TabPages[tab.TabPages.Count - 1];
-            
+
             FillTab(newTab);
             tab.SelectedTab = newTab;
-            
+
             var qr = newTab.Controls.Find("qr", true)[0] as QueryResultCtl;
 
             if (sender.Equals(schemaToolStripMenuItem))//Schema
@@ -390,17 +395,71 @@ namespace OracleManager
             else if (sender.Equals(generateCClassToolStripMenuItem) || sender.Equals(generateCClassWCFToolStripMenuItem))// Generate C# class
             {
                 var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", lstObjects.SelectedItem.ToString()));
-                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), sender.Equals(generateCClassWCFToolStripMenuItem), false);
+                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), sender.Equals(generateCClassWCFToolStripMenuItem), false, string.Empty, string.Empty);
                 qr.SetText(__s);
                 qr.HidePanel2();
             }
             else if (sender.Equals(generateClassWithCollectionToolStripMenuItem))// Generate C# class
             {
-                var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", lstObjects.SelectedItem.ToString()));
-                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), true, true);
-                qr.SetText(__s);
-                qr.HidePanel2();
+                if (lstObjects.SelectedItems.NotEmpty())
+                {
+
+                    if (compName.IsEmpty()) compName = ControlMod.InputBox("", "Company name");
+                    if (nameSpace.IsEmpty()) nameSpace = ControlMod.InputBox("", "Namespace");
+
+                    foreach (var item in lstObjects.SelectedItems)
+                    {
+
+                        var data =
+                            OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
+                        var __s = ClassGenerater.GetCSharpClass(data, item.ToString(), true, true, compName, nameSpace);
+                        qr.SetText(__s);
+                        qr.HidePanel2();
+
+                    }
+
+                }
+                else
+                {
+                    GenerateCSharpClassesWithCollection();
+                }
             }
+        }
+
+        private void GenerateCSharpClassesWithCollection()
+        {
+            try
+            {
+                var tb = tab.SelectedTab;
+                if (tb != null && tb.Controls.Count > 0)
+                {
+                    DoWait(true);
+                    var qrCurrent = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
+                    var items = qrCurrent.GetText().Split(';').Select(o => o.NullTrimer()).ToList();
+
+                    if (items.NotEmpty())
+                    {
+                        if (compName.IsEmpty()) compName = ControlMod.InputBox("", "Company name");
+                        if (nameSpace.IsEmpty()) nameSpace = ControlMod.InputBox("", "Namespace");
+
+                        foreach (var item in items)
+                        {
+                            var data =
+                                OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
+                            var __s = ClassGenerater.GetCSharpClass(data, item.ToString(), true, true, compName,
+                                nameSpace);
+                        }
+                    }
+                }
+            
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+
+            DoWait(false);
+
         }
 
         private void lstObjects_MouseDown(object sender, MouseEventArgs e)

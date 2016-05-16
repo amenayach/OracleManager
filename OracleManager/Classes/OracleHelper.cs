@@ -27,7 +27,7 @@ namespace OracleManager
         }
 
         public static string owners = @"SELECT DISTINCT OWNER    FROM DBA_OBJECTS ORDER BY OWNER";
-        public static string tables = @"SELECT DISTINCT object_name     FROM DBA_OBJECTS WHERE OBJECT_TYPE = 'TABLE' AND OWNER='?'";
+        public static string tables = @"SELECT DISTINCT object_name     FROM DBA_OBJECTS WHERE OBJECT_TYPE = 'TABLE' AND OWNER='?' ORDER BY object_name";
 
         public static System.Data.DataTable GetDT(string s)
         {

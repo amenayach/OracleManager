@@ -13,17 +13,22 @@ namespace OracleManager
 
         private static string companyName = string.Empty;
 
-        public static string GetCSharpClass(DataTable data, string className, bool withWCFDecorators, bool withCollectionClass)
+        public static string GetCSharpClass(DataTable data, string className, bool withWCFDecorators, bool withCollectionClass, string companyName, string nameSpace)
         {
             if (data == null) return string.Empty;
+            
+            var cleanClassName = className.SplitterByUnderscore();
 
-            var compName = ControlMod.InputBox("", "Company name", companyName);
-            if (compName.NotEmpty())
+            var customClassName = ControlMod.InputBox("", "Class name", cleanClassName);
+            if (customClassName.NotEmpty())
             {
-                companyName = compName;
+                cleanClassName = customClassName;
             }
 
-            var cleanClassName = className.SplitterByUnderscore();
+            if (nameSpace.IsEmpty())
+            {
+                nameSpace = "<ToBeSet>";
+            }
 
             var __s =
             "//------------------------------------------------------------------" + Environment.NewLine +
@@ -38,7 +43,7 @@ namespace OracleManager
            "// <remarks/>" + Environment.NewLine +
            "//------------------------------------------------------------------" + Environment.NewLine +
            Environment.NewLine +
-           "namespace <ToBeSet>" + Environment.NewLine +
+           "namespace "+ nameSpace + Environment.NewLine +
            "{" + Environment.NewLine +
            "    using System.Runtime.Serialization;" + Environment.NewLine +
            "" + Environment.NewLine +
@@ -75,7 +80,7 @@ namespace OracleManager
            "// <remarks/>" + Environment.NewLine +
            "//------------------------------------------------------------------" + Environment.NewLine +
            Environment.NewLine +
-           "namespace <ToBeSet>" + Environment.NewLine +
+           "namespace "+ nameSpace + Environment.NewLine +
            "{" + Environment.NewLine +
            "    using System.Collections.Generic;" + Environment.NewLine +
            "    using System.Runtime.Serialization;" + Environment.NewLine +

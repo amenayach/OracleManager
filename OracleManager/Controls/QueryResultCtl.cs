@@ -242,7 +242,7 @@ namespace OracleManager.Controls
                                             fieldValues += (firstCol ? ", " : " ") +
 
                                                 (column.DataType == typeof(DateTime) && !DBNull.Value.Equals(row[column]) ?
-                                                "'" + ((DateTime)row[column]).ToString("dd-MMM-yyyy") + "'" : "'" + row[column].ToString().Replace("'","''").Replace("&","and") + "'");
+                                                "'" + ((DateTime)row[column]).ToString("dd-MMM-yyyy") + "'" : "'" + row[column].ToString().Replace("'", "''").Replace("&", "and") + "'");
 
                                         }
 
@@ -289,6 +289,11 @@ namespace OracleManager.Controls
         public void SetText(string sText)
         {
             tbScript.Text = sText;
+        }
+
+        public string GetText()
+        {
+            return tbScript.Text;
         }
 
         public void HidePanel2()
