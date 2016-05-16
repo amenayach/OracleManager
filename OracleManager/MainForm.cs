@@ -390,7 +390,14 @@ namespace OracleManager
             else if (sender.Equals(generateCClassToolStripMenuItem) || sender.Equals(generateCClassWCFToolStripMenuItem))// Generate C# class
             {
                 var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", lstObjects.SelectedItem.ToString()));
-                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), sender.Equals(generateCClassWCFToolStripMenuItem));
+                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), sender.Equals(generateCClassWCFToolStripMenuItem), false);
+                qr.SetText(__s);
+                qr.HidePanel2();
+            }
+            else if (sender.Equals(generateClassWithCollectionToolStripMenuItem))// Generate C# class
+            {
+                var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", lstObjects.SelectedItem.ToString()));
+                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), true, true);
                 qr.SetText(__s);
                 qr.HidePanel2();
             }

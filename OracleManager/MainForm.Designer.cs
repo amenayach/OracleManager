@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnDotNetTypes = new System.Windows.Forms.Button();
             this.btnExec = new System.Windows.Forms.Button();
             this.lblWait = new System.Windows.Forms.Label();
             this.numRowLimit = new System.Windows.Forms.NumericUpDown();
@@ -47,7 +48,7 @@
             this.openWithAllFieldsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateCClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateCClassWCFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnDotNetTypes = new System.Windows.Forms.Button();
+            this.generateClassWithCollectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -83,6 +84,21 @@
             this.splitContainer1.Size = new System.Drawing.Size(859, 480);
             this.splitContainer1.SplitterDistance = 286;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // btnDotNetTypes
+            // 
+            this.btnDotNetTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDotNetTypes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnDotNetTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDotNetTypes.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnDotNetTypes.Location = new System.Drawing.Point(210, 80);
+            this.btnDotNetTypes.Name = "btnDotNetTypes";
+            this.btnDotNetTypes.Size = new System.Drawing.Size(32, 26);
+            this.btnDotNetTypes.TabIndex = 10;
+            this.btnDotNetTypes.Text = "!";
+            this.toolTip1.SetToolTip(this.btnDotNetTypes, "Get .Net Types (F6)");
+            this.btnDotNetTypes.UseVisualStyleBackColor = true;
+            this.btnDotNetTypes.Click += new System.EventHandler(this.btnDotNetTypes_Click);
             // 
             // btnExec
             // 
@@ -239,9 +255,10 @@
             this.schemaToolStripMenuItem,
             this.openWithAllFieldsToolStripMenuItem,
             this.generateCClassToolStripMenuItem,
-            this.generateCClassWCFToolStripMenuItem});
+            this.generateCClassWCFToolStripMenuItem,
+            this.generateClassWithCollectionToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 136);
             // 
             // schemaToolStripMenuItem
             // 
@@ -271,20 +288,12 @@
             this.generateCClassWCFToolStripMenuItem.Text = "Generate C# Class with &WCF decorators";
             this.generateCClassWCFToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
             // 
-            // btnDotNetTypes
+            // generateClassWithCollectionToolStripMenuItem
             // 
-            this.btnDotNetTypes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDotNetTypes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnDotNetTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDotNetTypes.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.btnDotNetTypes.Location = new System.Drawing.Point(210, 80);
-            this.btnDotNetTypes.Name = "btnDotNetTypes";
-            this.btnDotNetTypes.Size = new System.Drawing.Size(32, 26);
-            this.btnDotNetTypes.TabIndex = 10;
-            this.btnDotNetTypes.Text = "!";
-            this.toolTip1.SetToolTip(this.btnDotNetTypes, "Get .Net Types (F6)");
-            this.btnDotNetTypes.UseVisualStyleBackColor = true;
-            this.btnDotNetTypes.Click += new System.EventHandler(this.btnDotNetTypes_Click);
+            this.generateClassWithCollectionToolStripMenuItem.Name = "generateClassWithCollectionToolStripMenuItem";
+            this.generateClassWithCollectionToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.generateClassWithCollectionToolStripMenuItem.Text = "Generate C# Class With C&ollection";
+            this.generateClassWithCollectionToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -332,6 +341,7 @@
         private System.Windows.Forms.ToolStripMenuItem generateCClassToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateCClassWCFToolStripMenuItem;
         private System.Windows.Forms.Button btnDotNetTypes;
+        private System.Windows.Forms.ToolStripMenuItem generateClassWithCollectionToolStripMenuItem;
     }
 }
 

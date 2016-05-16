@@ -4,21 +4,49 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OracleManager
 {
     public class ClassGenerater
     {
-        public static string GetCSharpClass(DataTable data, string className, bool withWCFDecorators)
+
+        private static string companyName = string.Empty;
+
+        public static string GetCSharpClass(DataTable data, string className, bool withWCFDecorators, bool withCollectionClass)
         {
             if (data == null) return string.Empty;
 
+            var compName = ControlMod.InputBox("", "Company name", companyName);
+            if (compName.NotEmpty())
+            {
+                companyName = compName;
+            }
+
+            var cleanClassName = className.SplitterByUnderscore();
+
             var __s =
-            "    /// <summary>" + Environment.NewLine +
-            "    /// An object that is used to hold the " + className.SplitterByUnderscore() + "." + Environment.NewLine +
-            "    /// </summary>" + Environment.NewLine +
-            (withWCFDecorators ? "    [DataContract]" + Environment.NewLine : "") +
-            "    public class " + className.SplitterByUnderscore() + " {" + Environment.NewLine;
+            "//------------------------------------------------------------------" + Environment.NewLine +
+           "// <copyright file=\"" + cleanClassName + ".cs\" company=\"" + companyName + "\">" + Environment.NewLine +
+           "//     Copyright (c) " + companyName + " Ltd.  All rights reserved." + Environment.NewLine +
+           "// </copyright>" + Environment.NewLine +
+           "//" + Environment.NewLine +
+           "// <summary>" + Environment.NewLine +
+           "// An object that is used to hold the " + cleanClassName + " info." + Environment.NewLine +
+           "// </summary>" + Environment.NewLine +
+           "//" + Environment.NewLine +
+           "// <remarks/>" + Environment.NewLine +
+           "//------------------------------------------------------------------" + Environment.NewLine +
+           Environment.NewLine +
+           "namespace <ToBeSet>" + Environment.NewLine +
+           "{" + Environment.NewLine +
+           "    using System.Runtime.Serialization;" + Environment.NewLine +
+           "" + Environment.NewLine +
+           "    /// <summary>" + Environment.NewLine +
+           "    /// An object that is used to hold the " + cleanClassName + "." + Environment.NewLine +
+           "    /// </summary>" + Environment.NewLine +
+           (withWCFDecorators ? "    [DataContract]" + Environment.NewLine : "") +
+           "    public class " + cleanClassName + Environment.NewLine + "    {" + Environment.NewLine;
 
             __s += data.Columns.Cast<DataColumn>().Select(o =>
                 Environment.NewLine +
@@ -29,6 +57,42 @@ namespace OracleManager
                 "        public " + GetTypeString(o.DataType) + " " + o.ColumnName.SplitterByUnderscore() + " { get; set; }" + Environment.NewLine
                 ).Aggregate((f1, f2) => f1 + f2);
             __s += Environment.NewLine + "    }";
+            __s += Environment.NewLine + "}";
+
+
+            /*-------------------------------------------------- Collection Class -------------------------------------------------*/
+
+            var __sCollection =
+            "//------------------------------------------------------------------" + Environment.NewLine +
+           "// <copyright file=\"" + cleanClassName + "Collection.cs\" company=\"" + companyName + "\">" + Environment.NewLine +
+           "//     Copyright (c) " + companyName + " Ltd.  All rights reserved." + Environment.NewLine +
+           "// </copyright>" + Environment.NewLine +
+           "//" + Environment.NewLine +
+           "// <summary>" + Environment.NewLine +
+           "// An object that is used to hold the " + cleanClassName + "Collection info." + Environment.NewLine +
+           "// </summary>" + Environment.NewLine +
+           "//" + Environment.NewLine +
+           "// <remarks/>" + Environment.NewLine +
+           "//------------------------------------------------------------------" + Environment.NewLine +
+           Environment.NewLine +
+           "namespace <ToBeSet>" + Environment.NewLine +
+           "{" + Environment.NewLine +
+           "    using System.Collections.Generic;" + Environment.NewLine +
+           "    using System.Runtime.Serialization;" + Environment.NewLine +
+           "" + Environment.NewLine +
+           "    /// <summary>" + Environment.NewLine +
+           "    /// An object that is used to hold the " + cleanClassName + "Collection." + Environment.NewLine +
+           "    /// </summary>" + Environment.NewLine +
+           (withWCFDecorators ? "    [CollectionDataContract]" + Environment.NewLine : "") +
+           "    public class " + cleanClassName + "Collection : List<" + cleanClassName + ">" + Environment.NewLine +
+           "    {" + Environment.NewLine;
+
+            __sCollection += Environment.NewLine + "    }";
+            __sCollection += Environment.NewLine + "}";
+
+            System.IO.File.WriteAllText(ControlMod.CombinePath(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), cleanClassName + ".cs"), __s);
+            System.IO.File.WriteAllText(ControlMod.CombinePath(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), cleanClassName + "Collection.cs"), __sCollection);
+
             return __s;
         }
 
