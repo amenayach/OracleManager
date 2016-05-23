@@ -11,12 +11,10 @@ namespace OracleManager
     public class ClassGenerater
     {
 
-        private static string companyName = string.Empty;
-
-        public static string GetCSharpClass(DataTable data, string className, bool withWCFDecorators, bool withCollectionClass, string companyName, string nameSpace)
+        public static string GetCSharpClass(DataTable data, string className, bool withWcfDecorators, bool withCollectionClass, string companyName, string nameSpace)
         {
             if (data == null) return string.Empty;
-            
+
             var cleanClassName = className.SplitterByUnderscore();
 
             var customClassName = ControlMod.InputBox("", "Class name", cleanClassName);
@@ -43,14 +41,14 @@ namespace OracleManager
            "// <remarks/>" + Environment.NewLine +
            "//------------------------------------------------------------------" + Environment.NewLine +
            Environment.NewLine +
-           "namespace "+ nameSpace + Environment.NewLine +
+           "namespace " + nameSpace + Environment.NewLine +
            "{" + Environment.NewLine +
            "    using System.Runtime.Serialization;" + Environment.NewLine +
            "" + Environment.NewLine +
            "    /// <summary>" + Environment.NewLine +
            "    /// An object that is used to hold the " + cleanClassName + "." + Environment.NewLine +
            "    /// </summary>" + Environment.NewLine +
-           (withWCFDecorators ? "    [DataContract]" + Environment.NewLine : "") +
+           (withWcfDecorators ? "    [DataContract]" + Environment.NewLine : "") +
            "    public class " + cleanClassName + Environment.NewLine + "    {" + Environment.NewLine;
 
             __s += data.Columns.Cast<DataColumn>().Select(o =>
@@ -58,7 +56,7 @@ namespace OracleManager
                 "        /// <summary>" + Environment.NewLine +
                 "        /// Represents the " + o.ColumnName.SplitterByUnderscore() + Environment.NewLine +
                 "        /// </summary>" + Environment.NewLine +
-                (withWCFDecorators ? "        [DataMember]" + Environment.NewLine : "") +
+                (withWcfDecorators ? "        [DataMember]" + Environment.NewLine : "") +
                 "        public " + GetTypeString(o.DataType) + " " + o.ColumnName.SplitterByUnderscore() + " { get; set; }" + Environment.NewLine
                 ).Aggregate((f1, f2) => f1 + f2);
             __s += Environment.NewLine + "    }";
@@ -80,7 +78,7 @@ namespace OracleManager
            "// <remarks/>" + Environment.NewLine +
            "//------------------------------------------------------------------" + Environment.NewLine +
            Environment.NewLine +
-           "namespace "+ nameSpace + Environment.NewLine +
+           "namespace " + nameSpace + Environment.NewLine +
            "{" + Environment.NewLine +
            "    using System.Collections.Generic;" + Environment.NewLine +
            "    using System.Runtime.Serialization;" + Environment.NewLine +
@@ -88,7 +86,7 @@ namespace OracleManager
            "    /// <summary>" + Environment.NewLine +
            "    /// An object that is used to hold the " + cleanClassName + "Collection." + Environment.NewLine +
            "    /// </summary>" + Environment.NewLine +
-           (withWCFDecorators ? "    [CollectionDataContract]" + Environment.NewLine : "") +
+           (withWcfDecorators ? "    [CollectionDataContract]" + Environment.NewLine : "") +
            "    public class " + cleanClassName + "Collection : List<" + cleanClassName + ">" + Environment.NewLine +
            "    {" + Environment.NewLine;
 
@@ -97,6 +95,54 @@ namespace OracleManager
 
             System.IO.File.WriteAllText(ControlMod.CombinePath(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), cleanClassName + ".cs"), __s);
             System.IO.File.WriteAllText(ControlMod.CombinePath(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), cleanClassName + "Collection.cs"), __sCollection);
+
+            return __s;
+        }
+
+        public static string GetCSharpSelectFunctions(DataTable data, string className)
+        {
+            if (data == null) return string.Empty;
+
+            var cleanClassName = className.SplitterByUnderscore();
+
+            var customClassName = ControlMod.InputBox("", "Class name", cleanClassName);
+            if (customClassName.NotEmpty())
+            {
+                cleanClassName = customClassName;
+            }
+
+
+            var __s =
+           @"        /// <summary>
+        /// Retrieves " + cleanClassName + @".
+        /// </summary>
+        public " + cleanClassName + @"Collection Get" + (cleanClassName.EndsWith("y") ? cleanClassName.Substring(0, cleanClassName.Length - 1) + "ie" : cleanClassName) + @"s()
+        {
+            return DataOperation(ds =>
+            {
+
+                var results = ds.ExecuteQuery<" + cleanClassName + @">(
+                                    @""SELECT " + Environment.NewLine;
+
+            __s += data.Columns.Cast<DataColumn>().Select(o =>
+                "                                     " + GetColumnQuerySlice(o)
+                ).Aggregate((f1, f2) => f1 + ", " + Environment.NewLine + f2);
+
+            __s += Environment.NewLine +
+                @"                                    FROM " + className + @""");
+
+                var " + (cleanClassName[0].ToString().ToLower() + cleanClassName.Substring(1)) + @"Collection = new " + cleanClassName + @"Collection();
+
+                if (NotEmpty(results))
+                {
+                    " + (cleanClassName[0].ToString().ToLower() + cleanClassName.Substring(1)) + @"Collection.AddRange(results);
+                }
+
+                return " + (cleanClassName[0].ToString().ToLower() + cleanClassName.Substring(1)) + @"Collection;
+
+            });
+
+        }" + Environment.NewLine + Environment.NewLine;
 
             return __s;
         }
@@ -115,6 +161,9 @@ namespace OracleManager
                 case "System.Double":
                     res = "double";
                     break;
+                case "System.Decimal":
+                    res = "decimal";
+                    break;
                 case "System.Int16":
                     res = "short";
                     break;
@@ -123,6 +172,34 @@ namespace OracleManager
                     break;
                 default:
                     res = type.ToString();
+                    break;
+            }
+            return res;
+        }
+
+        public static string GetColumnQuerySlice(DataColumn col)
+        {
+            var res = "";
+            switch (col.DataType.ToString())
+            {
+                case "System.String":
+                case "System.DateTime":
+                    res = col.ColumnName + " " + col.ColumnName.SplitterByUnderscore();
+                    break;
+                case "System.Double":
+                    res = "cast(" + col.ColumnName + " as FLOAT) " + col.ColumnName.SplitterByUnderscore();
+                    break;
+                case "System.Decimal":
+                    res = "cast(" + col.ColumnName + " as NUMBER(19)) " + col.ColumnName.SplitterByUnderscore();
+                    break;
+                case "System.Int32":
+                    res = "cast(" + col.ColumnName + " as NUMBER(9)) " + col.ColumnName.SplitterByUnderscore();
+                    break;
+                case "System.Int64":
+                    res = "cast(" + col.ColumnName + " as NUMBER(18)) " + col.ColumnName.SplitterByUnderscore();
+                    break;
+                default:
+                    res = col.ColumnName + " " + col.ColumnName.SplitterByUnderscore();
                     break;
             }
             return res;
