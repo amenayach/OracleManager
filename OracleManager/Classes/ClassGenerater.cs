@@ -11,18 +11,19 @@ namespace OracleManager
     public class ClassGenerater
     {
 
-        public static string GetCSharpClass(DataTable data, string className, bool withWcfDecorators, bool withCollectionClass, string companyName, string nameSpace)
+        public static string GetCSharpClass(DataTable data, string className, bool withWcfDecorators, bool withCollectionClass, string companyName, string nameSpace, string customClassName)
         {
             if (data == null) return string.Empty;
 
             var cleanClassName = className.SplitterByUnderscore();
 
-            var customClassName = ControlMod.InputBox("", "Class name", cleanClassName);
-            if (customClassName.NotEmpty())
+            if (customClassName.IsEmpty())
             {
-                cleanClassName = customClassName;
+                customClassName = ControlMod.InputBox("", "Class name", cleanClassName);
             }
 
+            cleanClassName = customClassName;
+            
             if (nameSpace.IsEmpty())
             {
                 nameSpace = "<ToBeSet>";
@@ -99,18 +100,18 @@ namespace OracleManager
             return __s;
         }
 
-        public static string GetCSharpSelectFunctions(DataTable data, string className)
+        public static string GetCSharpSelectFunctions(DataTable data, string className, string customClassName)
         {
             if (data == null) return string.Empty;
 
             var cleanClassName = className.SplitterByUnderscore();
 
-            var customClassName = ControlMod.InputBox("", "Class name", cleanClassName);
-            if (customClassName.NotEmpty())
+            if (customClassName.IsEmpty())
             {
-                cleanClassName = customClassName;
+                customClassName = ControlMod.InputBox("", "Class name", cleanClassName);
             }
 
+            cleanClassName = customClassName;
 
             var __s =
            @"        /// <summary>

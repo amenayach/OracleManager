@@ -50,6 +50,7 @@
             this.generateCClassWCFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateClassWithCollectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateCSharpQueryfunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generatecSharpSelectFunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -259,9 +260,10 @@
             this.generateCClassToolStripMenuItem,
             this.generateCClassWCFToolStripMenuItem,
             this.generateClassWithCollectionToolStripMenuItem,
-            this.generateCSharpQueryfunctionsToolStripMenuItem});
+            this.generateCSharpQueryfunctionsToolStripMenuItem,
+            this.generatecSharpSelectFunctionsToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(283, 180);
             // 
             // schemaToolStripMenuItem
             // 
@@ -304,6 +306,13 @@
             this.generateCSharpQueryfunctionsToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
             this.generateCSharpQueryfunctionsToolStripMenuItem.Text = "Generate C# Query &functions";
             this.generateCSharpQueryfunctionsToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
+            // 
+            // generatecSharpSelectFunctionsToolStripMenuItem
+            // 
+            this.generatecSharpSelectFunctionsToolStripMenuItem.Name = "generatecSharpSelectFunctionsToolStripMenuItem";
+            this.generatecSharpSelectFunctionsToolStripMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.generatecSharpSelectFunctionsToolStripMenuItem.Text = "Generate C# Select Functions";
+            this.generatecSharpSelectFunctionsToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -353,6 +362,7 @@
         private System.Windows.Forms.Button btnDotNetTypes;
         private System.Windows.Forms.ToolStripMenuItem generateClassWithCollectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateCSharpQueryfunctionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generatecSharpSelectFunctionsToolStripMenuItem;
     }
 }
 

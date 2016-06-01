@@ -398,7 +398,7 @@ namespace OracleManager
             else if (sender.Equals(generateCClassToolStripMenuItem) || sender.Equals(generateCClassWCFToolStripMenuItem))// Generate C# class
             {
                 var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", lstObjects.SelectedItem.ToString()));
-                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), sender.Equals(generateCClassWCFToolStripMenuItem), false, string.Empty, string.Empty);
+                var __s = ClassGenerater.GetCSharpClass(data, lstObjects.SelectedItem.ToString(), sender.Equals(generateCClassWCFToolStripMenuItem), false, string.Empty, string.Empty, string.Empty);
                 qr.SetText(__s);
                 qr.HidePanel2();
             }
@@ -415,10 +415,10 @@ namespace OracleManager
                     foreach (var item in lstObjects.SelectedItems)
                     {
 
-                        var data =
-                            OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
-                        ClassGenerater.GetCSharpClass(data, item.ToString(), true, true, compName, nameSpace);
-                        __s += ClassGenerater.GetCSharpSelectFunctions(data, item.ToString());
+                        var customClassName = ControlMod.InputBox("", "Class name", item.ToString());
+                        var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
+                        ClassGenerater.GetCSharpClass(data, item.ToString(), true, true, compName, nameSpace, customClassName);
+                        __s += ClassGenerater.GetCSharpSelectFunctions(data, item.ToString(), customClassName);
 
                     }
 
@@ -429,6 +429,30 @@ namespace OracleManager
                 else
                 {
                     GenerateCSharpClassesWithCollection();
+                }
+            }
+            else if (sender.Equals(generatecSharpSelectFunctionsToolStripMenuItem))// generatecSharpSelectFunctionsToolStripMenuItem
+            {
+                if (lstObjects.SelectedItems.NotEmpty())
+                {
+
+                    if (compName.IsEmpty()) compName = ControlMod.InputBox("", "Company name");
+                    if (nameSpace.IsEmpty()) nameSpace = ControlMod.InputBox("", "Namespace");
+
+                    var __s = string.Empty;
+
+                    foreach (var item in lstObjects.SelectedItems)
+                    {
+
+                        var customClassName = ControlMod.InputBox("", "Class name", item.ToString());
+                        var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
+                        __s += ClassGenerater.GetCSharpSelectFunctions(data, item.ToString(), customClassName);
+
+                    }
+
+                    qr.SetText(__s);
+                    qr.HidePanel2();
+
                 }
             }
             else if (sender.Equals(generateCSharpQueryfunctionsToolStripMenuItem))
@@ -457,9 +481,10 @@ namespace OracleManager
 
                         foreach (var item in items)
                         {
+                            var customClassName = ControlMod.InputBox("", "Class name", item);
                             var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
-                            ClassGenerater.GetCSharpClass(data, item.ToString(), true, true, compName, nameSpace);
-                            __s += ClassGenerater.GetCSharpSelectFunctions(data, item.ToString());
+                            ClassGenerater.GetCSharpClass(data, item, true, true, compName, nameSpace, customClassName);
+                            __s += ClassGenerater.GetCSharpSelectFunctions(data, item, customClassName);
                         }
 
                         qrCurrent.SetText(__s);
@@ -502,7 +527,7 @@ namespace OracleManager
                         foreach (var item in items)
                         {
                             var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
-                            __s += ClassGenerater.GetCSharpSelectFunctions(data, item.ToString());
+                            __s += ClassGenerater.GetCSharpSelectFunctions(data, item.ToString(), string.Empty);
                         }
 
                         qrCurrent.SetText(__s);
