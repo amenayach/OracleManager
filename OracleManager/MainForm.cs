@@ -431,30 +431,6 @@ namespace OracleManager
                     GenerateCSharpClassesWithCollection();
                 }
             }
-            else if (sender.Equals(generatecSharpSelectFunctionsToolStripMenuItem))// generatecSharpSelectFunctionsToolStripMenuItem
-            {
-                if (lstObjects.SelectedItems.NotEmpty())
-                {
-
-                    if (compName.IsEmpty()) compName = ControlMod.InputBox("", "Company name");
-                    if (nameSpace.IsEmpty()) nameSpace = ControlMod.InputBox("", "Namespace");
-
-                    var __s = string.Empty;
-
-                    foreach (var item in lstObjects.SelectedItems)
-                    {
-
-                        var customClassName = ControlMod.InputBox("", "Class name", item.ToString());
-                        var data = OracleHelper.GetDatatable(String.Format(@"SELECT * FROM {0} WHERE 0=1", item.ToString()));
-                        __s += ClassGenerater.GetCSharpSelectFunctions(data, item.ToString(), customClassName);
-
-                    }
-
-                    qr.SetText(__s);
-                    qr.HidePanel2();
-
-                }
-            }
             else if (sender.Equals(generateCSharpQueryfunctionsToolStripMenuItem))
             {
                 GenerateCSharpQueryfunctions();
