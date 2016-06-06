@@ -131,10 +131,13 @@ namespace OracleManager.Controls
 
                     StringBuilder sb = new StringBuilder();
 
-                    var views = //"adasdasd;XXMOB_LEAVE_TYPES_V;XXMOB_LEAVE_APP_HIST_V;XXMOB_CUSTOM_ATTACHMENTS_V;XXMOB_LEAVES_WITH_STATUS_V"
-                        //"xxmob_currencies_v;xxmob_emp_po_access_v;xxmob_gl_codes_v;xxmob_po_headers_v;xxmob_po_lines_v;xxenec_ap_payment_terms_v;xxenec_hr_dept_v;xxenec_ou_names_v;xxenec_po_categories_v;xxenec_po_inv_locations_v;xxenec_po_line_types_v;xxmob_po_receipt_lines_v;xxenec_po_pr_req_types_v;xxenec_po_price_types_v;xxenec_po_shipto_loc_v;xxenec_po_types_v;xxenec_po_uom_types_v;xxenec_sup_sites_v;xxenec_suppliers_v;xxmob_purchase_action_hist_v;xxmob_purchase_notfy_v;xxmob_pr_headers_v;xxmob_pr_lines_v;xxmob_po_release_headers_v;xxmob_po_release_lines_v;xxmob_po_receipts_v"
-                        viewsSplittedBySemiColumn
-                            .Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                    var views = viewsSplittedBySemiColumn.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Select(lambView => lambView.NullTrimer()).ToList();
+
+                    //handles the splitted by comma case
+                    if (views.NotEmpty() && views.Count == 1 && viewsSplittedBySemiColumn.Contains(","))
+                    {
+                        views = viewsSplittedBySemiColumn.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(lambView => lambView.NullTrimer()).ToList();
+                    }
 
                     foreach (string view in views)
                     {
