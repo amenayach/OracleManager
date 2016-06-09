@@ -68,7 +68,7 @@ namespace OracleManager.Controls
                     {
                         var data = OracleHelper.GetDatatable(tbScript.Text);
                         grd.DataSource = null;
-                        grd.DataSource = data.Columns.Cast<DataColumn>().Select(col => new { ColumnName = col.ColumnName, Type = col.DataType, MaxLength = col.MaxLength }).ToList();
+                        grd.DataSource = data.Columns.Cast<DataColumn>().Select(col => new { ColumnName = col.ColumnName, Type = col.DataType, MaxLength = col.MaxLength }).OrderBy(col => col.ColumnName).ToList();
                         if (data.NotEmpty())
                         {
                             if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
@@ -304,6 +304,12 @@ namespace OracleManager.Controls
             splitContainer2.Panel2.Hide();
             splitContainer2.SplitterDistance = splitContainer2.Height;
             DisableExec = true;
+        }
+
+        private void grd_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            ControlMod.SaveLog(e.Exception);
+            e.Cancel = true;
         }
     }
 }

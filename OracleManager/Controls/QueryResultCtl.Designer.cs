@@ -80,6 +80,7 @@
             this.grd.ReadOnly = true;
             this.grd.Size = new System.Drawing.Size(764, 409);
             this.grd.TabIndex = 0;
+            this.grd.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.grd_DataError);
             // 
             // QueryResultCtl
             // 

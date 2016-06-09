@@ -378,9 +378,10 @@ namespace OracleManager
 
             if (sender.Equals(schemaToolStripMenuItem))//Schema
             {
-                qr.SetText(@"SELECT table_name, column_name, data_type, data_length
+                qr.SetText(@"SELECT column_name, data_type, data_length
                                 FROM USER_TAB_COLUMNS
-                                WHERE table_name = '" + lstObjects.SelectedItem.ToString() + @"'");
+                                WHERE table_name = '" + lstObjects.SelectedItem.ToString() + @"'
+                                ORDER BY column_name");
                 qr.ExecQuery();
             }
             else if (sender.Equals(openWithAllFieldsToolStripMenuItem))// Open with all fields

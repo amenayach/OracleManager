@@ -43,7 +43,7 @@ public static class ControlMod
             {
                 string s = "Exception @" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\nMsg: " +
                                 ex.Message + "\nStackTrace: " + ex.StackTrace;
-                System.IO.File.WriteAllText(System.IO.Path.Combine(Application.StartupPath, "Log" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"), s);
+                System.IO.File.AppendAllText(System.IO.Path.Combine(Application.StartupPath, "Log" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"), s);
             }
         }
         catch (Exception)
