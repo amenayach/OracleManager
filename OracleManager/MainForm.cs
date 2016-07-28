@@ -111,6 +111,12 @@ namespace OracleManager
                             CloseCurrentTab();
                         }
                         break;
+                    case Keys.Enter:
+                        if (e.Control)
+                        {
+                            ExecuteBulk();
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -187,6 +193,25 @@ namespace OracleManager
                 {
                     var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
                     qr.ExtractViewsAsTables();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+            DoWait(false);
+        }
+
+        private void ExecuteBulk()
+        {
+            try
+            {
+                DoWait(true);
+                var tb = tab.SelectedTab;
+                if (tb != null && tb.Controls.Count > 0)
+                {
+                    var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
+                    qr.ExecuteBulk();
                 }
             }
             catch (Exception ex)

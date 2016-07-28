@@ -115,5 +115,36 @@ namespace OracleManager
             }
             return res;
         }
+
+        internal static bool ExecuteBulk(string script, ref string errorMessage, params OracleParameter[] outParameters)
+        {
+            var res = false;
+            errorMessage = string.Empty;
+            try
+            {
+                using (var connection = new OracleConnection(constr))
+                using (var cmd = new OracleCommand())
+                {
+
+                    cmd.Connection = connection;
+                    connection.Open();
+                    
+                    if (outParameters != null && outParameters.Length > 0)
+                    {
+                        cmd.Parameters.AddRange(outParameters);
+                    }
+
+                    cmd.CommandText = script;
+                    cmd.ExecuteNonQuery();
+                    res = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+            return res;
+        }
     }
 }

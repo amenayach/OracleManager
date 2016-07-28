@@ -188,16 +188,16 @@ namespace OracleManager
                     res = col.ColumnName + " " + col.ColumnName.SplitterByUnderscore();
                     break;
                 case "System.Double":
-                    res = "cast(" + col.ColumnName + " as FLOAT) " + col.ColumnName.SplitterByUnderscore();
+                    res = "cast(nvl(" + col.ColumnName + ", 0) as FLOAT) " + col.ColumnName.SplitterByUnderscore();
                     break;
                 case "System.Decimal":
-                    res = "cast(" + col.ColumnName + " as NUMBER(19)) " + col.ColumnName.SplitterByUnderscore();
+                    res = "cast(nvl(" + col.ColumnName + ", 0) as NUMBER(19)) " + col.ColumnName.SplitterByUnderscore();
                     break;
                 case "System.Int32":
-                    res = "cast(" + col.ColumnName + " as NUMBER(9)) " + col.ColumnName.SplitterByUnderscore();
+                    res = "cast(nvl(" + col.ColumnName + ", 0) as NUMBER(9)) " + col.ColumnName.SplitterByUnderscore();
                     break;
                 case "System.Int64":
-                    res = "cast(" + col.ColumnName + " as NUMBER(18)) " + col.ColumnName.SplitterByUnderscore();
+                    res = "cast(nvl(" + col.ColumnName + ", 0) as NUMBER(18)) " + col.ColumnName.SplitterByUnderscore();
                     break;
                 default:
                     res = col.ColumnName + " " + col.ColumnName.SplitterByUnderscore();

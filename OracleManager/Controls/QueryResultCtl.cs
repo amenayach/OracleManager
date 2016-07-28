@@ -119,6 +119,42 @@ namespace OracleManager.Controls
             return grd.RowCount;
         }
 
+        public void ExecuteBulk()
+        {
+            try
+            {
+                if (DisableExec) return;
+                if (OracleHelper.constr.NotEmpty())
+                {
+                    if (tbScript.Text.NotEmpty())
+                    {
+                        var errorMessage = string.Empty;
+                        var success = OracleHelper.ExecuteBulk(tbScript.Text, ref errorMessage);
+                        
+                        var dt = new DataTable();
+                        dt.Columns.Add(new DataColumn("Result", typeof(string)));
+                        var row = dt.NewRow();
+                        row[0] = success ? "Done" : errorMessage;
+                        dt.Rows.Add(row);
+                        
+                        grd.DataSource = null;
+                        grd.DataSource = dt;
+                        
+                        if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
+                        
+                    }
+                }
+                else
+                {
+                    ControlMod.PromptMsg("Please connect to an Oracle data first !");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
+            }
+        }
+
         public void ExtractViewsAsTables()
         {
             try
