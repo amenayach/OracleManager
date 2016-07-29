@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tbScript = new System.Windows.Forms.RichTextBox();
             this.grd = new System.Windows.Forms.DataGridView();
@@ -72,6 +73,8 @@
             // 
             this.grd.AllowUserToAddRows = false;
             this.grd.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.grd.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.grd.BackgroundColor = System.Drawing.Color.White;
             this.grd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grd.Dock = System.Windows.Forms.DockStyle.Fill;

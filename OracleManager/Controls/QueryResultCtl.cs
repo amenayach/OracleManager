@@ -69,6 +69,12 @@ namespace OracleManager.Controls
                         var data = OracleHelper.GetDatatable(tbScript.Text);
                         grd.DataSource = null;
                         grd.DataSource = data.Columns.Cast<DataColumn>().Select(col => new { ColumnName = col.ColumnName, Type = col.DataType, MaxLength = col.MaxLength }).OrderBy(col => col.ColumnName).ToList();
+
+                        if (grd.Columns.Count > 0)
+                        {
+                            grd.Columns[0].Width = 230;
+                        }
+
                         if (data.NotEmpty())
                         {
                             if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
@@ -130,18 +136,18 @@ namespace OracleManager.Controls
                     {
                         var errorMessage = string.Empty;
                         var success = OracleHelper.ExecuteBulk(tbScript.Text, ref errorMessage);
-                        
+
                         var dt = new DataTable();
                         dt.Columns.Add(new DataColumn("Result", typeof(string)));
                         var row = dt.NewRow();
                         row[0] = success ? "Done" : errorMessage;
                         dt.Rows.Add(row);
-                        
+
                         grd.DataSource = null;
                         grd.DataSource = dt;
-                        
+
                         if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
-                        
+
                     }
                 }
                 else
