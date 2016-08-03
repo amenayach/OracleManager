@@ -281,7 +281,7 @@ namespace OracleManager
                     var qr = tab.SelectedTab.Controls.Find("qr", true)[0] as QueryResultCtl;
                     if (qr != null)
                     {
-                        qr.SetText("SELECT * FROM " + lstObjects.SelectedItem.ToString() + " WHERE ROWNUM <= " + (numRowLimit.Text));
+                        qr.SetText("SELECT * FROM " + lstObjects.SelectedItem.ToString() + " WHERE ROWNUM <= " + ((int)numRowLimit.Value));
                     }
                 }
             }
