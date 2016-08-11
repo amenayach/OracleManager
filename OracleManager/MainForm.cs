@@ -117,12 +117,35 @@ namespace OracleManager
                             ExecuteBulk();
                         }
                         break;
+                    case Keys.F:
+                        if (e.Control)
+                        {
+                            DoFind();
+                        }
+                        break;
                     default:
                         break;
                 }
             }
             catch //(Exception)
             {
+            }
+        }
+
+        private void DoFind()
+        {
+            try
+            {
+                var tb = tab.SelectedTab;
+                if (tb != null && tb.Controls.Count > 0)
+                {
+                    var qr = tb.Controls.Find("qr", true)[0] as Controls.QueryResultCtl;
+                    qr.DoFind();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.PromptMsg();
             }
         }
 

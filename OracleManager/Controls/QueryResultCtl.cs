@@ -353,5 +353,78 @@ namespace OracleManager.Controls
             ControlMod.SaveLog(e.Exception);
             e.Cancel = true;
         }
+
+        internal bool DoFind()
+        {
+
+            if (!tbSearch.Visible)
+            {
+                tbSearch.Show();
+                tbSearch.Focus();
+                tbSearch.SelectAll();
+                return false;
+            }
+
+            tbSearch.Focus();
+
+            var searchKeyword = tbSearch.Text;
+
+            if (grd.Rows.Count == 0 || string.IsNullOrEmpty(searchKeyword))
+            {
+                return false;
+            }
+
+            if (grd.CurrentCell == null)
+            {
+                grd.CurrentCell = grd.Rows[0].Cells[0];
+            }
+
+            for (int i = grd.CurrentCell.RowIndex; i < grd.RowCount; i++)
+            {
+
+                var row = grd.Rows[i];
+
+                for (int j = 0; j < grd.ColumnCount; j++)
+                {
+
+                    if (grd.CurrentCell.RowIndex == i && grd.CurrentCell.ColumnIndex <= j)
+                    {
+                        continue;
+                    }
+
+                    var cellValue = row.Cells[j].Value == null || DBNull.Value.Equals(row.Cells[j].Value) ? "" : row.Cells[j].Value.ToString();
+
+                    if (!string.IsNullOrEmpty(cellValue) && cellValue.ToLower().Contains(searchKeyword.ToLower()))
+                    {
+
+                        grd.CurrentCell = grd.Rows[i].Cells[j];
+                        grd.FirstDisplayedScrollingRowIndex = i;
+                        return true;
+
+                    }
+
+                }
+            }
+
+            if (grd.Rows.Count > 0)
+            {
+                grd.CurrentCell = grd.Rows[0].Cells[0];
+            }
+
+            return false;
+        }
+
+        private void tbSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DoFind();
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                tbSearch.Hide();
+            }
+        }
+
     }
 }

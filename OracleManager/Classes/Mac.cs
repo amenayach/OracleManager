@@ -133,8 +133,9 @@ public class Mac
             }
 
         }
-        catch (Exception ex)
+        catch
         {
+            //Ignored
         }
     }
 
