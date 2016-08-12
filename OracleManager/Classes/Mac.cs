@@ -1,15 +1,8 @@
 ﻿//By Amen Ayach
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic;
-using System.Collections;
-using System.Data;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
+
 public class Mac
 {
     public enum eDirection

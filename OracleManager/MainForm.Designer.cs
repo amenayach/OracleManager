@@ -205,7 +205,8 @@
             // 
             this.cmbData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbData.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbData.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbData.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbData.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.cmbData.ForeColor = System.Drawing.Color.RoyalBlue;
             this.cmbData.FormattingEnabled = true;
