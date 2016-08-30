@@ -204,7 +204,7 @@ namespace OracleManager.Controls
                                         sb.AppendLine("  " +
                                                       row["column_name"].ToString() + " " +
                                                       row["data_type"].ToString() + " " +
-                                                      (int.Parse(row["fld_length"].ToString()) == 0 || row["data_type"].ToString().ToLower() == "date"
+                                                      (int.Parse(row["fld_length"].ToString()) == 0 || row["data_type"].ToString().ToLower() == "date" || row["data_type"].ToString().ToLower() == "blob"
                                                           ? ""
                                                           : "(" + row["fld_length"].ToString() + ")") +
                                                       (row.Equals(fields.Rows[fields.Rows.Count - 1]) ? "  " : ",  ") +
