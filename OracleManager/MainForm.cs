@@ -164,8 +164,8 @@ namespace OracleManager
             catch (Exception ex)
             {
                 ex.PromptMsg();
+                DoWait(false);
             }
-            DoWait(false);
         }
 
         private void ExecForDotNetTypes()
@@ -365,10 +365,15 @@ namespace OracleManager
                 if (tbp != null && tbp.Controls.Count == 0)
                 {
                     var qr = new Controls.QueryResultCtl() { Name = "qr", Dock = DockStyle.Fill };
-                    qr.OnExecutionDone += (object sender1, EventArgs e1) =>
+                    qr.OnExecutionDone += (object sender1, ExecDoneEventArgs e1) =>
                     {
                         var __count = ((Controls.QueryResultCtl)sender1).Count;
-                        lblCount.Text = __count.ToString() + " row" + (__count > 1 ? "s" : "");
+
+                        var time = e1.ExecTime <= 1000 ? (double)e1.ExecTime : (double)(e1.ExecTime / 1000);
+
+                        lblCount.Text = string.Format("{0} row{1} - {2} {3}", __count.ToString(), (__count > 1 ? "s" : ""), time, e1.ExecTime <= 1000 ? "ms" : "s");
+
+                        DoWait(false);
                     };
                     tbp.Controls.Add(qr);
                     tbp.Text = "Query" + tab.TabPages.Count + "  X";

@@ -5,16 +5,19 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OracleManager.Classes;
 
 namespace OracleManager.Controls
 {
     public partial class QueryResultCtl : UserControl
     {
-        private bool DisableExec = false;
-        private string LastOutputParam = string.Empty;
-        public event EventHandler OnExecutionDone;
+        private DateTime _execStarTime;
+        private bool _disableExec = false;
+        private string _lastOutputParam = string.Empty;
+        public event EventHandler<ExecDoneEventArgs> OnExecutionDone;
 
         public int Count
         {
@@ -31,18 +34,29 @@ namespace OracleManager.Controls
         {
             try
             {
-                if (DisableExec) return 0;
+                if (_disableExec) return 0;
                 if (OracleHelper.constr.NotEmpty())
                 {
                     if (tbScript.Text.NotEmpty())
                     {
-                        var data = OracleHelper.GetDatatable(tbScript.Text);
-                        grd.DataSource = null;
-                        grd.DataSource = data;
-                        if (data.NotEmpty())
+                        _execStarTime = DateTime.Now;
+
+                        var script = tbScript.Text;
+
+                        Async.GetDataAsync<DataTable>(() =>
                         {
-                            if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
-                        }
+                            var data = OracleHelper.GetDatatable(script);
+                            return data;
+                        }, (DataTable data) =>
+                        {
+                            grd.DataSource = null;
+                            grd.DataSource = data;
+                            if (data.NotEmpty())
+                            {
+                                var delta = (DateTime.Now - _execStarTime);
+                                if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = delta.TotalMilliseconds });
+                            }
+                        });
                     }
                 }
                 else
@@ -61,11 +75,14 @@ namespace OracleManager.Controls
         {
             try
             {
-                if (DisableExec) return 0;
+                if (_disableExec) return 0;
                 if (OracleHelper.constr.NotEmpty())
                 {
                     if (tbScript.Text.NotEmpty())
                     {
+
+                        _execStarTime = DateTime.Now;
+                        
                         var data = OracleHelper.GetDatatable(tbScript.Text);
                         grd.DataSource = null;
                         grd.DataSource = data.Columns.Cast<DataColumn>().Select(col => new { ColumnName = col.ColumnName, Type = col.DataType, MaxLength = col.MaxLength }).OrderBy(col => col.ColumnName).ToList();
@@ -77,7 +94,7 @@ namespace OracleManager.Controls
 
                         if (data.NotEmpty())
                         {
-                            if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
+                            if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (_execStarTime - DateTime.Now).Milliseconds });
                         }
                     }
                 }
@@ -97,20 +114,23 @@ namespace OracleManager.Controls
         {
             try
             {
-                if (DisableExec) return 0;
+                if (_disableExec) return 0;
+
+                _execStarTime = DateTime.Now;
+                
                 if (OracleHelper.constr.NotEmpty())
                 {
                     if (tbScript.Text.NotEmpty())
                     {
-                        LastOutputParam = ControlMod.InputBox("", "Enter output param", LastOutputParam);
-                        var data = OracleHelper.ExecuteFunctionOrProcedure(tbScript.Text, LastOutputParam);
+                        _lastOutputParam = ControlMod.InputBox("", "Enter output param", _lastOutputParam);
+                        var data = OracleHelper.ExecuteFunctionOrProcedure(tbScript.Text, _lastOutputParam);
                         var dt = new DataTable();
-                        dt.Columns.Add(new DataColumn(LastOutputParam, typeof(string)));
+                        dt.Columns.Add(new DataColumn(_lastOutputParam, typeof(string)));
                         var row = dt.NewRow();
                         row[0] = data;
                         grd.DataSource = null;
                         grd.DataSource = dt;
-                        if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
+                        if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (_execStarTime - DateTime.Now).Milliseconds });
                     }
                 }
                 else
@@ -129,12 +149,15 @@ namespace OracleManager.Controls
         {
             try
             {
-                if (DisableExec) return;
+                if (_disableExec) return;
                 if (OracleHelper.constr.NotEmpty())
                 {
                     if (tbScript.Text.NotEmpty())
                     {
+                        _execStarTime = DateTime.Now;
+
                         var errorMessage = string.Empty;
+
                         var success = OracleHelper.ExecuteBulk(tbScript.Text, ref errorMessage);
 
                         var dt = new DataTable();
@@ -146,7 +169,7 @@ namespace OracleManager.Controls
                         grd.DataSource = null;
                         grd.DataSource = dt;
 
-                        if (OnExecutionDone != null) OnExecutionDone(this, new EventArgs());
+                        if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (_execStarTime - DateTime.Now).Milliseconds });
 
                     }
                 }
@@ -165,7 +188,7 @@ namespace OracleManager.Controls
         {
             try
             {
-                if (DisableExec) return;
+                if (_disableExec) return;
                 if (OracleHelper.constr.NotEmpty())
                 {
 
@@ -243,7 +266,7 @@ namespace OracleManager.Controls
         {
             try
             {
-                if (DisableExec) return;
+                if (_disableExec) return;
                 if (OracleHelper.constr.NotEmpty())
                 {
 
@@ -252,7 +275,7 @@ namespace OracleManager.Controls
                     StringBuilder sb = new StringBuilder();
 
                     var views = //"adasdasd;XXMOB_LEAVE_TYPES_V;XXMOB_LEAVE_APP_HIST_V;XXMOB_CUSTOM_ATTACHMENTS_V;XXMOB_LEAVES_WITH_STATUS_V"
-                        //"xxmob_currencies_v;xxmob_emp_po_access_v;xxmob_gl_codes_v;xxmob_po_headers_v;xxmob_po_lines_v;xxenec_ap_payment_terms_v;xxenec_hr_dept_v;xxenec_ou_names_v;xxenec_po_categories_v;xxenec_po_inv_locations_v;xxenec_po_line_types_v;xxmob_po_receipt_lines_v;xxenec_po_pr_req_types_v;xxenec_po_price_types_v;xxenec_po_shipto_loc_v;xxenec_po_types_v;xxenec_po_uom_types_v;xxenec_sup_sites_v;xxenec_suppliers_v;xxmob_purchase_action_hist_v;xxmob_purchase_notfy_v;xxmob_pr_headers_v;xxmob_pr_lines_v;xxmob_po_release_headers_v;xxmob_po_release_lines_v;xxmob_po_receipts_v"
+                                //"xxmob_currencies_v;xxmob_emp_po_access_v;xxmob_gl_codes_v;xxmob_po_headers_v;xxmob_po_lines_v;xxenec_ap_payment_terms_v;xxenec_hr_dept_v;xxenec_ou_names_v;xxenec_po_categories_v;xxenec_po_inv_locations_v;xxenec_po_line_types_v;xxmob_po_receipt_lines_v;xxenec_po_pr_req_types_v;xxenec_po_price_types_v;xxenec_po_shipto_loc_v;xxenec_po_types_v;xxenec_po_uom_types_v;xxenec_sup_sites_v;xxenec_suppliers_v;xxmob_purchase_action_hist_v;xxmob_purchase_notfy_v;xxmob_pr_headers_v;xxmob_pr_lines_v;xxmob_po_release_headers_v;xxmob_po_release_lines_v;xxmob_po_receipts_v"
                         viewsSplittedBySemiColumn
                             .Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -345,7 +368,7 @@ namespace OracleManager.Controls
         {
             splitContainer2.Panel2.Hide();
             splitContainer2.SplitterDistance = splitContainer2.Height;
-            DisableExec = true;
+            _disableExec = true;
         }
 
         private void grd_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -425,6 +448,16 @@ namespace OracleManager.Controls
                 tbSearch.Hide();
             }
         }
+
+    }
+
+    public class ExecDoneEventArgs : EventArgs
+    {
+
+        /// <summary>
+        /// Rerpresents the total execution time in milliseconds
+        /// </summary>
+        public double ExecTime { get; set; }
 
     }
 }
