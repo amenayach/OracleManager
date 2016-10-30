@@ -183,8 +183,8 @@ namespace OracleManager
             catch (Exception ex)
             {
                 ex.PromptMsg();
+                DoWait(false);
             }
-            DoWait(false);
         }
 
         private void ExecProc()

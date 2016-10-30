@@ -82,7 +82,7 @@ namespace OracleManager.Controls
                     {
 
                         _execStarTime = DateTime.Now;
-                        
+
                         var data = OracleHelper.GetDatatable(tbScript.Text);
                         grd.DataSource = null;
                         grd.DataSource = data.Columns.Cast<DataColumn>().Select(col => new { ColumnName = col.ColumnName, Type = col.DataType, MaxLength = col.MaxLength }).OrderBy(col => col.ColumnName).ToList();
@@ -94,7 +94,7 @@ namespace OracleManager.Controls
 
                         if (data.NotEmpty())
                         {
-                            if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (_execStarTime - DateTime.Now).Milliseconds });
+                            if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (DateTime.Now - _execStarTime).Milliseconds });
                         }
                     }
                 }
@@ -117,7 +117,7 @@ namespace OracleManager.Controls
                 if (_disableExec) return 0;
 
                 _execStarTime = DateTime.Now;
-                
+
                 if (OracleHelper.constr.NotEmpty())
                 {
                     if (tbScript.Text.NotEmpty())
@@ -130,7 +130,7 @@ namespace OracleManager.Controls
                         row[0] = data;
                         grd.DataSource = null;
                         grd.DataSource = dt;
-                        if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (_execStarTime - DateTime.Now).Milliseconds });
+                        if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (DateTime.Now - _execStarTime).Milliseconds });
                     }
                 }
                 else
@@ -169,7 +169,7 @@ namespace OracleManager.Controls
                         grd.DataSource = null;
                         grd.DataSource = dt;
 
-                        if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (_execStarTime - DateTime.Now).Milliseconds });
+                        if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (DateTime.Now - _execStarTime).Milliseconds });
 
                     }
                 }
