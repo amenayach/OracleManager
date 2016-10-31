@@ -51,11 +51,10 @@ namespace OracleManager.Controls
                         {
                             grd.DataSource = null;
                             grd.DataSource = data;
-                            if (data.NotEmpty())
-                            {
-                                var delta = (DateTime.Now - _execStarTime);
-                                if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = delta.TotalMilliseconds });
-                            }
+
+                            var delta = (DateTime.Now - _execStarTime);
+                            if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = delta.TotalMilliseconds });
+
                         });
                     }
                 }
@@ -92,10 +91,8 @@ namespace OracleManager.Controls
                             grd.Columns[0].Width = 230;
                         }
 
-                        if (data.NotEmpty())
-                        {
-                            if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (DateTime.Now - _execStarTime).Milliseconds });
-                        }
+                        if (OnExecutionDone != null) OnExecutionDone(this, new ExecDoneEventArgs() { ExecTime = (DateTime.Now - _execStarTime).Milliseconds });
+
                     }
                 }
                 else
