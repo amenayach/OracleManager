@@ -50,6 +50,7 @@
             this.generateCClassWCFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateClassWithCollectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateCSharpQueryfunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnHelp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -81,6 +82,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnHelp);
             this.splitContainer1.Panel2.Controls.Add(this.tab);
             this.splitContainer1.Size = new System.Drawing.Size(859, 480);
             this.splitContainer1.SplitterDistance = 286;
@@ -306,6 +308,21 @@
             this.generateCSharpQueryfunctionsToolStripMenuItem.Text = "Generate C# Query &functions";
             this.generateCSharpQueryfunctionsToolStripMenuItem.Click += new System.EventHandler(this.schemaToolStripMenuItem_Click);
             // 
+            // btnHelp
+            // 
+            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHelp.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.btnHelp.Location = new System.Drawing.Point(538, -1);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(27, 21);
+            this.btnHelp.TabIndex = 11;
+            this.btnHelp.Text = "?";
+            this.toolTip1.SetToolTip(this.btnHelp, "Help (F1) ");
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -354,6 +371,7 @@
         private System.Windows.Forms.Button btnDotNetTypes;
         private System.Windows.Forms.ToolStripMenuItem generateClassWithCollectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateCSharpQueryfunctionsToolStripMenuItem;
+        private System.Windows.Forms.Button btnHelp;
     }
 }
 

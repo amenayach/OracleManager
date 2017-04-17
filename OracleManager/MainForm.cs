@@ -81,6 +81,9 @@ namespace OracleManager
             {
                 switch (e.KeyCode)
                 {
+                    case Keys.F1:
+                        btnHelp.PerformClick();
+                        break;
                     case Keys.F5:
                         Exec();
                         break;
@@ -603,5 +606,12 @@ namespace OracleManager
             ExecForDotNetTypes();
         }
 
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            using (var frm = new HelpForm())
+            {
+                frm.ShowDialog();
+            }
+        }
     }
 }
